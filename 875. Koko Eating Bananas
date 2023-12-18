@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int fun(vector<int>& piles){
+        int ans = INT_MIN;
+        for(int i=0;i<piles.size();i++){
+            ans = max(ans, piles[i]);
+        }
+        return ans;
+    }
+    long long total_hrs(vector<int>& piles, int mid){
+        long long total = 0;
+        int n = piles.size();
+        for(int i=0; i<n; i++){
+            total += ceil((double)piles[i] / (double)mid);
+        }
+        return total;
+    }
+    int minEatingSpeed(vector<int>& piles, int hi) {
+        int l = 1;
+        int h = fun(piles);
+        int ans = 1;
+        while(l<=h){
+            int mid = (l+h)/2;
+            long long val = total_hrs(piles,mid);
+            if(val<=hi)
+            {
+                ans = mid;
+                cout << ans << "A" << endl;
+                h = mid - 1;
+            }
+            else{
+                l = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
