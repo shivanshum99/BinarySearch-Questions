@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        // int n = nums.size();
+        // int l = 0;
+        // int h = n - 1;
+        // int mid = (l+h)/2;
+        // int ans = INT_MAX;
+        // while(l<=h)
+        // {
+        //     if(n==1)
+        //     {
+        //         ans = nums[0];
+        //         break;
+        //     }
+        //     if(nums[l] == nums[mid] && nums[mid] == nums[h])
+        //     {
+        //         l = l + 1;
+        //         h = h - 1;
+        //         continue;
+        //     }
+        //     if(nums[l]<=nums[mid])
+        //     {
+        //         ans = min(ans, nums[l]);
+        //         l = mid + 1;
+        //     }
+        //     else{
+        //         ans = min(ans, nums[mid]);
+        //         h = mid - 1;
+        //     }
+        //     mid = (l+h)/2;
+        // }
+        // return ans;
+        int l = 0;
+    int r = nums.size() - 1;
+
+    while (l < r) {
+      const int m = (l + r) / 2;
+      if (nums[m] == nums[r])
+        --r;
+      else if (nums[m] < nums[r])
+        r = m;
+      else
+        l = m + 1;
+    }
+
+    return nums[l];
+    }
+};
