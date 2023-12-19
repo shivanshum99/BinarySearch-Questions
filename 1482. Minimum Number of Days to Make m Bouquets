@@ -1,0 +1,85 @@
+Brute Force Solution:
+
+class Solution {
+public:
+    bool possible(vector<int>& arr, int day, int m, int k)
+    {
+        int n = arr.size();
+        int ans = 0;
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] <= day) {
+                cnt++;
+            }
+            else {
+                ans += (cnt/k);
+                cnt = 0;
+            }
+        }
+        ans += (cnt/k);
+        return ans >= m;
+    }
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        long long val = m * 1ll * k * 1ll;
+        int n = bloomDay.size();
+        if (val > n) return -1;
+        int l = INT_MAX, h = INT_MIN;
+        for (int i = 0; i < n; i++) {
+            l = min(l, bloomDay[i]);
+            h = max(h, bloomDay[i]);
+        }
+        for(int i=l;i<=h;i++)
+        {
+            if(possible(bloomDay, i, m, k)){   
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Efficient Solution:(Using Binary Search)
+
+class Solution {
+public:
+    bool possible(vector<int>& arr, int day, int m, int k)
+    {
+        int n = arr.size();
+        int ans = 0;
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] <= day) {
+                cnt++;
+            }
+            else {
+                ans += (cnt/k);
+                cnt = 0;
+            }
+        }
+        ans += (cnt/k);
+        return ans >= m;
+    }
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        long long val = m * 1ll * k * 1ll;
+        int n = bloomDay.size();
+        if (val > n) return -1;
+        int l = *min_element(bloomDay.begin(), bloomDay.end());
+        int h = *max_element(bloomDay.begin(), bloomDay.end());
+        int ans;
+        while(l<=h)
+        {
+            int mid = (l+h)/2;
+            if(possible(bloomDay, mid, m, k)){
+                //we need minimun then eliminate right half
+                ans = mid;
+                h = mid - 1;
+            }
+            else{
+                l = mid + 1;
+            }
+        }
+        return ans //or low;
+    }
+};
