@@ -1,0 +1,75 @@
+Brute Force Solution:
+
+class Solution {
+public:
+    bool possibleToPlace(vector<int>& arr, int dist, int m){
+        int cntBalls = 1;
+        int last = arr[0];
+        for(int i = 1; i<arr.size(); i++)
+        {
+            if(arr[i]-last>=dist){
+                cntBalls++;
+                last = arr[i];
+            }
+            if(cntBalls>=m) return true;
+        }
+        
+        return false;
+    }
+    int maxDistance(vector<int>& position, int m) {
+        sort(position.begin(), position.end());
+        int n = position.size();
+        int range = position[n-1]-position[0];
+        int i;
+        for(i=1;i<=range;i++){
+            if(possibleToPlace(position, i, m))
+            {
+                continue;
+            }
+            else{
+                break;
+            }
+        }
+        return i-1;
+    }
+};
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Binary Search Solution:
+
+class Solution {
+public:
+    bool possibleToPlace(vector<int>& arr, int dist, int m){
+        int cntBalls = 1;
+        int last = arr[0];
+        for(int i = 1; i<arr.size(); i++)
+        {
+            if(arr[i]-last>=dist){
+                cntBalls++;
+                last = arr[i];
+            }
+            if(cntBalls>=m) return true;
+        }
+        
+        return false;
+    }
+    int maxDistance(vector<int>& position, int m) {
+        sort(position.begin(), position.end());
+        int n = position.size();
+        int l = 1;
+        int h = position[n-1]-position[0];
+        int ans;
+        while(l<=h)
+        {
+            int mid = (l+h)/2;
+            if(possibleToPlace(position, mid, m)){
+                ans = mid;
+                l = mid+1;
+            }
+            else{
+                h = mid - 1;
+            }
+        }
+        return ans; //or h
+    }
+};
