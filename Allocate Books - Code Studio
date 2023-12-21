@@ -1,0 +1,65 @@
+Brute Force Solution:
+
+int fun(vector<int>& arr, int pages, int n, int m){
+    int student = 1; int pagesStu = 0;
+
+    for(int i = 0; i<n; i++)
+    {
+        pagesStu +=arr[i];
+        if(pagesStu > pages){
+            student++;
+            pagesStu = arr[i];
+        }
+    }
+    return student;
+}
+int findPages(vector<int>& arr, int n, int m) {
+    int l = *max_element(arr.begin(), arr.end());
+    int h = accumulate(arr.begin(), arr.end(), 0);
+    if(m>n){
+        return -1;
+    }
+    for(int pages=l;pages<=h;pages++){
+        int cntStu = fun(arr, pages, n, m);
+        if(cntStu==m){
+            return pages;
+        }
+    }
+    return -1;
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Binary Search Solution:
+
+#include<bits/stdc++.h>
+int fun(vector<int>& arr, int pages, int n, int m){
+    int student = 1; int pagesStu = 0;
+
+    for(int i = 0; i<n; i++)
+    {
+        pagesStu +=arr[i];
+        if(pagesStu > pages){
+            student++;
+            pagesStu = arr[i];
+        }
+    }
+    return student;
+}
+int findPages(vector<int>& arr, int n, int m) {
+    int l = *max_element(arr.begin(), arr.end());
+    int h = accumulate(arr.begin(), arr.end(), 0);
+    int ans;
+    if(m>n){
+        return -1;
+    }
+    while(l<=h){
+        int mid = (l+h)/2;
+        int student = fun(arr, mid, n, m);
+        if(student>m){
+            l = mid + 1;
+        } 
+        else{
+            h = mid - 1;
+        }
+    }
+    return l;
+}
